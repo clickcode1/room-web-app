@@ -1,29 +1,24 @@
 package com.imran.landon.roomwebapp.controllers;
 
 import com.imran.landon.roomwebapp.models.Room;
+import com.imran.landon.roomwebapp.service.RoomService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import org.springframework.ui.Model;
 import java.util.List;
 
 @Controller
 @RequestMapping("/rooms")
 public class RoomsController {
-
-    private static final List<Room> rooms = new ArrayList<>();
-
-    static {
-        for (int i=0;i<10;i++){
-            rooms.add(new Room(i,"Room"+i,"R"+i,"Q"));
-        }
+    private final RoomService roomService;
+    public RoomsController(RoomService roomService) {
+        this.roomService = roomService;
     }
+
     @GetMapping
     public String getAllRooms(Model model){
-        model.addAttribute("rooms", rooms);
+        model.addAttribute("rooms", roomService.getAllRooms());
         return "rooms";
     }
 }
